@@ -1,0 +1,5 @@
+import { Campaign, CampaignMetric } from '../models/index.js'; import { dashboard,calculate } from '../services/analyticsService.js';
+const campaign = async(id,user)=>{const c=await Campaign.findByPk(id);if(!c){const e=new Error('Campaign not found');e.status=404;throw e;}if(user.role!=='ADMIN'&&c.advertiserId!==user.id){const e=new Error('Analytics access denied');e.status=403;throw e;}return c;};
+export const getDashboard=async(req,res,next)=>{try{res.json(await dashboard(req.user.role==='ADMIN'?{}:{advertiserId:req.user.id}));}catch(e){next(e);}};
+export const getCampaign=async(req,res,next)=>{try{const c=await campaign(req.params.campaignId,req.user);const metrics=await CampaignMetric.findAll({where:{campaignId:c.id},order:[['date','ASC']]});res.json({campaign:c,summary:calculate(metrics),daily:metrics});}catch(e){next(e);}};
+export const daily=async(req,res,next)=>{try{const c=await campaign(req.params.campaignId,req.user);res.json({daily:await CampaignMetric.findAll({where:{campaignId:c.id},order:[['date','ASC']]})});}catch(e){next(e);}};

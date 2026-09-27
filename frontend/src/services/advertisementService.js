@@ -1,0 +1,1 @@
+import api from './api';export const advertisements=()=>api.get('/advertisements');export const createAd=d=>api.post('/advertisements',d);export const updateAd=(id,d)=>api.put(`/advertisements/${id}`,d);export const deleteAd=id=>api.delete(`/advertisements/${id}`);export const adStatus=(id,status)=>api.patch(`/advertisements/${id}/status`,{status});

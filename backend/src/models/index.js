@@ -1,0 +1,3 @@
+import User from './User.js'; import Campaign from './Campaign.js'; import Advertisement from './Advertisement.js'; import CampaignMetric from './CampaignMetric.js';
+User.hasMany(Campaign, { foreignKey: 'advertiserId', as: 'campaigns', onDelete: 'CASCADE' }); Campaign.belongsTo(User, { foreignKey: 'advertiserId', as: 'advertiser' }); Campaign.hasMany(Advertisement, { foreignKey: 'campaignId', as: 'advertisements', onDelete: 'CASCADE' }); Advertisement.belongsTo(Campaign, { foreignKey: 'campaignId', as: 'campaign' }); Campaign.hasMany(CampaignMetric, { foreignKey: 'campaignId', as: 'metrics', onDelete: 'CASCADE' }); CampaignMetric.belongsTo(Campaign, { foreignKey: 'campaignId' });
+export { User, Campaign, Advertisement, CampaignMetric };

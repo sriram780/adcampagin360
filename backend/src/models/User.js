@@ -1,0 +1,5 @@
+import { DataTypes } from 'sequelize'; import bcrypt from 'bcryptjs'; import sequelize from '../config/database.js';
+const User = sequelize.define('User', { name: { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: true, len: [2, 100] } }, email: { type: DataTypes.STRING, allowNull: false, unique: true, validate: { isEmail: true } }, password: { type: DataTypes.STRING, allowNull: false, validate: { len: [8, 100] } }, role: { type: DataTypes.ENUM('ADMIN','ADVERTISER'), allowNull: false, defaultValue: 'ADVERTISER' }, isActive: { type: DataTypes.BOOLEAN, defaultValue: true } }, { tableName: 'users', hooks: { beforeCreate: async u => { u.password = await bcrypt.hash(u.password, 12); }, beforeUpdate: async u => { if (u.changed('password')) u.password = await bcrypt.hash(u.password, 12); } } });
+User.prototype.comparePassword = function(password) { return bcrypt.compare(password, this.password); };
+User.prototype.safe = function() { const { password, ...user } = this.get({ plain: true }); return user; };
+export default User;

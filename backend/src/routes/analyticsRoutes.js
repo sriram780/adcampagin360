@@ -1,0 +1,1 @@
+import { Router } from 'express';import * as c from '../controllers/analyticsController.js';import { protect } from '../middleware/authMiddleware.js';const r=Router();r.use(protect);r.get('/dashboard',c.getDashboard);r.get('/campaign/:campaignId',c.getCampaign);r.get('/campaign/:campaignId/daily',c.daily);export default r;

@@ -1,0 +1,1 @@
+import { Router } from 'express';import * as c from '../controllers/advertisementController.js';import { protect } from '../middleware/authMiddleware.js';const r=Router();r.use(protect);r.route('/').post(c.create).get(c.list);r.route('/:id').get(c.get).put(c.update).delete(c.remove);r.patch('/:id/status',c.status);export default r;

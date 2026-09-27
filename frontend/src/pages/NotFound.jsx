@@ -1,0 +1,1 @@
+import {Link} from 'react-router-dom';export default()=> <div className="grid min-h-screen place-items-center"><div className="text-center"><h1 className="text-6xl font-bold">404</h1><p className="my-4 text-slate-500">This page does not exist.</p><Link className="btn-primary" to="/login">Go to sign in</Link></div></div>;
